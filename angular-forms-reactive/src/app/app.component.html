@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!--
+        A.'formGroup' references 'signUpForm' in the component, binding it to the HTML.
+        B. (ngSubmit) - submitting the form calls the 'onSubmit' function in the component.
+      -->
+      <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+        <!-- 'formGroupName binds the form to the FormGroup named 'userData' in the ts.component. -->
+        <div formGroupName="userData">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <!-- 'formControlName' binds the control to the property in the component. -->
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              class="form-control">
+            <!--
+              The get() function gets access to the control, as opposed to the template-driven approach where the
+              ts.component accessing the HTML inputs.
+            -->
+            <span
+              *ngIf="signUpForm.get('userData.username').invalid && signUpForm.get('userData.username').touched"
+              class="help-block">
+              <!-- Handling different type of validation failures - each type of error has a different message -->
+              <span *ngIf="signUpForm.get('userData.username').errors['nameIsForbidden']">This name is invalid</span>
+              <span *ngIf="signUpForm.get('userData.username').errors['required']">This field is required</span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="email">email</label>
+            <input
+              type="text"
+              id="email"
+              formControlName="email"
+              class="form-control">
+            <span
+              *ngIf="signUpForm.get('userData.email').invalid && signUpForm.get('userData.email').touched"
+              class="help-block">Please enter a valid email address!</span>
+          </div>
+        </div>
+        <div class="radio" *ngFor="let gender of genders">
+          <label>
+            <input
+              type="radio"
+              formControlName="gender"
+              [value]="gender">{{ gender }}
+          </label>
+        </div>
+        <!-- The 'formArrayName' directive refers to 'hobbies' in 'signUpForm' -->
+        <div formArrayName="hobbies">
+          <h4>Your hobbies</h4>
+          <button
+            class="btn btn-default"
+            type="button"
+            (click)="onAddHobby()">Add Hobby
+          </button>
+          <!-- Why is the input hidden until the button is pressed??????? -->
+          <div
+            class="form-group"
+            *ngFor="let hobbyControl of signUpForm.get('hobbies').controls; let i = index">
+            <!-- [formControlName] binds the input value to the control at the index 'i' of the 'hobbies' FormArray. -->
+            <input type="text" class="form-control" [formControlName]="i">
+          </div>
+        </div>
+        <!-- Shown only if the form is invalid. -->
+        <span
+          *ngIf="signUpForm.invalid && signUpForm.touched"
+          class="help-block">Please enter valid data!</span>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

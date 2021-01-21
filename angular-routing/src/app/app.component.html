@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <!--
+        -routerLink: indicates that the Router is handling the routing, and the app won't refresh at clicking on the
+        link, as opposed to 'href'.
+        -Because '/' is the root, and both '/servers' and '/users' are derive from it, routerLinkActive will
+        always be true. [routerLinkActiveOptions]="{exact: true}" makes sure it is only true if the path is exactly
+         '/' -->
+        <li
+          role="presentation"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="/">Home</a></li>
+        <li role="presentation" routerLinkActive="active"><a routerLink="servers">Servers</a></li>
+       <!-- Property binding allows more complex routing, since multiple paths can be added to the array -->
+        <li role="presentation" routerLinkActive="active"><a [routerLink]="['/users']">Users</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!-- Angular directive(not component!!): marks the place where the Router loads the component of the selected route -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
